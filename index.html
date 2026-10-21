@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Котосессия</title>
+  <meta name="description" content="Котосессия — браузерный платформер: зумер-котик Скуб бежит по универу на экзамен, собирает витамины и проходит посты стрелками.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-state="loading">
+  <main class="wrap">
+    <header class="top">
+      <canvas class="logo logo--small" id="logoTop" role="img" aria-label="Котосессия"></canvas>
+      <p class="tagline">Пара в 8:30, а котик Скуб проспал</p>
+      <p class="best" id="bestLabel"></p>
+      <div class="toolbar">
+        <button class="btn btn--main" id="btnStart" type="button">Старт</button>
+        <button class="btn" id="btnPause" type="button">Пауза</button>
+        <button class="btn" id="btnRestart" type="button">Заново</button>
+        <button class="btn" id="btnMenu" type="button">Меню</button>
+        <button class="btn btn--icon" id="btnFull" type="button" aria-label="Во весь экран" title="Во весь экран">⛶</button>
+      </div>
+
+    </header>
+
+    <section class="stage">
+      <canvas id="game" width="960" height="540" aria-label="Игровое поле"></canvas>
+
+      <div class="overlay" id="overlay">
+        <div class="screen" id="screen-loading">
+          <p class="eyebrow">Загрузка</p>
+          <h2>Скуб ищет зачётку…</h2>
+        </div>
+
+        <div class="screen" id="screen-menu" hidden>
+          <ol class="tabs" aria-hidden="true">
+            <li>01</li><li>02</li><li>03</li><li class="is-on">∞</li>
+          </ol>
+          <p class="eyebrow">Пара в 8:30</p>
+          <h1 class="visually-hidden">Котосессия</h1>
+          <canvas class="logo logo--big" id="logoMenu" role="img" aria-label="Котосессия"></canvas>
+          <p class="note">Котик Скуб проспал. Беги по универу, собирай витамины для памяти, проходи посты стрелками и победи экзамен.</p>
+          <div class="actions">
+            <button class="btn btn--main" id="menuPlay" type="button">Играть</button>
+            <button class="btn" id="menuEndless" type="button">Бесконечная сессия</button>
+            <button class="btn" id="menuHelp" type="button">Как играть</button>
+          </div>
+          <button class="link" id="menuReset" type="button">Сбросить прогресс</button>
+        </div>
+
+        <div class="screen" id="screen-levels" hidden>
+          <p class="eyebrow">Расписание на сегодня</p>
+          <h2>Выбери пару</h2>
+          <div class="levels" id="levelList"></div>
+          <button class="btn" type="button" data-back>Назад</button>
+        </div>
+
+        <div class="screen" id="screen-help" hidden>
+          <p class="eyebrow">Как играть</p>
+          <h2>Добеги до аудитории 404</h2>
+          <ul class="rules">
+            <li><b>Бег и прыжок.</b> Стрелки или A D, прыжок — Пробел или W. В воздухе второй раз не прыгнуть.</li>
+            <li><b>Витамины.</b> Магний, витамин D и омега-3 — без всех трёх дверь экзамена не откроется. Каждый снимает одну банку энергетика и даёт +1,5 секунды на следующий пост.</li>
+            <li><b>Энергетики.</b> С банкой котик бегает быстрее, а коридор сам едет вперёд: отстанешь у края экрана — проиграешь. С третьей всё трясётся, четвёртая — обморок. Банку на полу можно перепрыгнуть.</li>
+            <li><b>Посты.</b> Реши пример стрелкой ← ↓ → или повтори комбо стрелок. «+» — две стрелки одновременно. Ошибка стоит зачётки.</li>
+            <li><b>Опасности.</b> Студенты толкаются, на кофе скользко, в яму «Ремонт» падать нельзя.</li>
+            <li><b>Экзамен.</b> У двери Скуб надевает доспехи и бьёт экзамен комбо стрелок.</li>
+          </ul>
+          <button class="btn" type="button" data-back>Назад</button>
+        </div>
+
+        <div class="screen" id="screen-pause" hidden>
+          <p class="eyebrow">Пауза</p>
+          <h2>Экзамен подождёт. Недолго</h2>
+          <div class="actions">
+            <button class="btn btn--main" id="pauseResume" type="button">Продолжить</button>
+            <button class="btn" id="pauseRestart" type="button">Заново</button>
+            <button class="btn" id="pauseMenu" type="button">В меню</button>
+          </div>
+        </div>
+
+        <div class="screen screen--result" id="screen-result" hidden>
+          <p class="eyebrow" id="resultEyebrow"></p>
+          <h2 id="resultTitle"></h2>
+          <p class="note" id="resultText"></p>
+          <ul class="result-lines" id="resultLines"></ul>
+          <p class="score-line"><b id="resultScore"></b> <span id="resultBest"></span></p>
+          <div class="actions">
+            <button class="btn btn--main" id="resultNext" type="button">Следующая пара</button>
+            <button class="btn" id="resultRetry" type="button">Заново</button>
+            <button class="btn" id="resultMenu" type="button">В меню</button>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-confirm" hidden>
+          <p class="eyebrow">Прогресс</p>
+          <h2>Стереть все рекорды?</h2>
+          <p class="note">Открытые пары и лучшие результаты удалятся из этого браузера.</p>
+          <div class="actions">
+            <button class="btn btn--danger" id="confirmReset" type="button">Стереть</button>
+            <button class="btn" type="button" data-back>Отмена</button>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-error" hidden>
+          <p class="eyebrow">Ошибка</p>
+          <h2>Уровни не загрузились</h2>
+          <p class="note" id="errorText"></p>
+        </div>
+      </div>
+    </section>
+
+    <p class="rotate-tip">Поверни телефон горизонтально — поле станет больше</p>
+
+    <div class="pad pad--run" aria-label="Кнопки бега">
+      <div class="pad__group">
+        <button type="button" data-action="left" aria-label="Влево">◀</button>
+        <button type="button" data-action="right" aria-label="Вправо">▶</button>
+      </div>
+      <button type="button" class="pad__jump" data-action="jump">Прыжок</button>
+    </div>
+
+    <div class="pad pad--qte" aria-label="Стрелки для постов">
+      <button type="button" data-action="left" aria-label="Стрелка влево">←</button>
+      <button type="button" data-action="up" aria-label="Стрелка вверх">↑</button>
+      <button type="button" data-action="down" aria-label="Стрелка вниз">↓</button>
+      <button type="button" data-action="right" aria-label="Стрелка вправо">→</button>
+    </div>
+
+    <p class="keys"><kbd>←</kbd> <kbd>→</kbd> или <kbd>A</kbd> <kbd>D</kbd> бег · <kbd>Пробел</kbd> или <kbd>W</kbd> прыжок · на постах стрелки <kbd>←</kbd> <kbd>↑</kbd> <kbd>↓</kbd> <kbd>→</kbd> · <kbd>P</kbd> пауза</p>
+  </main>
+
+  <!-- Уровни: данные в формате JSON, игра читает их при запуске -->
+  <script type="application/json" id="levels-data">
+{
+  "levels": [
+    {
+      "id": 1,
+      "title": "Пара 1",
+      "subject": "Матанализ",
+      "boss": "Экзамен по матанализу",
+      "board": [
+        "∫ sin x dx = ?",
+        "lim x→0",
+        "2 × 2 = 4 (наверное)"
+      ],
+      "time": 80,
+      "width": 3300,
+      "mathLevel": 1,
+      "comboLevel": 1,
+      "bossHp": 3,
+      "ground": [
+        [
+          0,
+          1150
+        ],
+        [
+          1230,
+          2380
+        ],
+        [
+          2460,
+          3300
+        ]
+      ],
+      "platforms": [
+        {
+          "kind": "chair",
+          "x": 420
+        },
+        {
+          "kind": "bench",
+          "x": 640
+        },
+        {
+          "kind": "sill",
+          "x": 800,
+          "y": 380,
+          "w": 150
+        },
+        {
+          "kind": "chair",
+          "x": 1320
+        },
+        {
+          "kind": "chair",
+          "x": 1490
+        },
+        {
+          "kind": "locker",
+          "x": 1560
+        },
+        {
+          "kind": "chair",
+          "x": 1845
+        },
+        {
+          "kind": "sill",
+          "x": 1900,
+          "y": 360,
+          "w": 150
+        },
+        {
+          "kind": "bench",
+          "x": 2600
+        },
+        {
+          "kind": "sill",
+          "x": 2780,
+          "y": 360,
+          "w": 140
+        }
+      ],
+      "vitamins": [
+        {
+          "type": "magnesium",
+          "x": 855,
+          "y": 348
+        },
+        {
+          "type": "vitd",
+          "x": 1578,
+          "y": 338
+        },
+        {
+          "type": "omega",
+          "x": 2830,
+          "y": 328
+        }
+      ],
+      "energy": [
+        {
+          "x": 560,
+          "y": 438
+        },
+        {
+          "x": 695,
+          "y": 398
+        },
+        {
+          "x": 1332,
+          "y": 388
+        },
+        {
+          "x": 1960,
+          "y": 328
+        },
+        {
+          "x": 2250,
+          "y": 438
+        },
+        {
+          "x": 2655,
+          "y": 398
+        },
+        {
+          "x": 2960,
+          "y": 438
+        }
+      ],
+      "students": [
+        {
+          "min": 880,
+          "max": 1030,
+          "speed": 60
+        },
+        {
+          "min": 2960,
+          "max": 3110,
+          "speed": 75
+        }
+      ],
+      "puddles": [
+        {
+          "x": 1690,
+          "w": 150
+        }
+      ],
+      "gates": [
+        {
+          "x": 1060,
+          "kind": "math"
+        },
+        {
+          "x": 2120,
+          "kind": "combo"
+        }
+      ],
+      "finish": 3180
+    },
+    {
+      "id": 2,
+      "title": "Пара 2",
+      "subject": "Физика",
+      "boss": "Экзамен по физике",
+      "board": [
+        "F = ma",
+        "E = mc²",
+        "g ≈ 9,8 м/с²"
+      ],
+      "time": 90,
+      "width": 3900,
+      "mathLevel": 2,
+      "comboLevel": 2,
+      "bossHp": 4,
+      "ground": [
+        [
+          0,
+          980
+        ],
+        [
+          1080,
+          2050
+        ],
+        [
+          2150,
+          3020
+        ],
+        [
+          3120,
+          3900
+        ]
+      ],
+      "platforms": [
+        {
+          "kind": "chair",
+          "x": 300
+        },
+        {
+          "kind": "bench",
+          "x": 520
+        },
+        {
+          "kind": "sill",
+          "x": 700,
+          "y": 360,
+          "w": 140
+        },
+        {
+          "kind": "chair",
+          "x": 1180
+        },
+        {
+          "kind": "chair",
+          "x": 1310
+        },
+        {
+          "kind": "locker",
+          "x": 1380
+        },
+        {
+          "kind": "sill",
+          "x": 1600,
+          "y": 360,
+          "w": 120
+        },
+        {
+          "kind": "bench",
+          "x": 1850
+        },
+        {
+          "kind": "chair",
+          "x": 2250
+        },
+        {
+          "kind": "chair",
+          "x": 2380
+        },
+        {
+          "kind": "locker",
+          "x": 2450
+        },
+        {
+          "kind": "chair",
+          "x": 2620
+        },
+        {
+          "kind": "sill",
+          "x": 2700,
+          "y": 360,
+          "w": 150
+        },
+        {
+          "kind": "chair",
+          "x": 3200
+        },
+        {
+          "kind": "bench",
+          "x": 3400
+        },
+        {
+          "kind": "sill",
+          "x": 3600,
+          "y": 360,
+          "w": 140
+        }
+      ],
+      "vitamins": [
+        {
+          "type": "magnesium",
+          "x": 750,
+          "y": 328
+        },
+        {
+          "type": "vitd",
+          "x": 2468,
+          "y": 338
+        },
+        {
+          "type": "omega",
+          "x": 3640,
+          "y": 328
+        }
+      ],
+      "energy": [
+        {
+          "x": 1192,
+          "y": 388
+        },
+        {
+          "x": 1640,
+          "y": 328
+        },
+        {
+          "x": 2000,
+          "y": 438
+        },
+        {
+          "x": 2200,
+          "y": 438
+        },
+        {
+          "x": 2760,
+          "y": 328
+        },
+        {
+          "x": 3160,
+          "y": 438
+        },
+        {
+          "x": 3450,
+          "y": 398
+        }
+      ],
+      "students": [
+        {
+          "min": 360,
+          "max": 490,
+          "speed": 70
+        },
+        {
+          "min": 1660,
+          "max": 1840,
+          "speed": 85
+        },
+        {
+          "min": 3545,
+          "max": 3700,
+          "speed": 80
+        }
+      ],
+      "puddles": [
+        {
+          "x": 2540,
+          "w": 140
+        }
+      ],
+      "gates": [
+        {
+          "x": 1520,
+          "kind": "math"
+        },
+        {
+          "x": 2336,
+          "kind": "combo"
+        },
+        {
+          "x": 3330,
+          "kind": "math"
+        }
+      ],
+      "finish": 3780
+    },
+    {
+      "id": 3,
+      "title": "Пара 3",
+      "subject": "Программирование",
+      "boss": "Экзамен по программированию",
+      "board": [
+        "for (let i = 0; i < n; i++)",
+        "undefined is not a function",
+        "работает — не трогай"
+      ],
+      "time": 100,
+      "width": 4400,
+      "mathLevel": 3,
+      "comboLevel": 3,
+      "bossHp": 5,
+      "ground": [
+        [
+          0,
+          900
+        ],
+        [
+          1010,
+          1900
+        ],
+        [
+          2010,
+          2900
+        ],
+        [
+          3010,
+          3700
+        ],
+        [
+          3800,
+          4400
+        ]
+      ],
+      "platforms": [
+        {
+          "kind": "chair",
+          "x": 250
+        },
+        {
+          "kind": "sill",
+          "x": 420,
+          "y": 360,
+          "w": 120
+        },
+        {
+          "kind": "bench",
+          "x": 620
+        },
+        {
+          "kind": "locker",
+          "x": 780
+        },
+        {
+          "kind": "bench",
+          "x": 1150,
+          "w": 120
+        },
+        {
+          "kind": "sill",
+          "x": 1330,
+          "y": 360,
+          "w": 140
+        },
+        {
+          "kind": "chair",
+          "x": 2100
+        },
+        {
+          "kind": "chair",
+          "x": 2230
+        },
+        {
+          "kind": "locker",
+          "x": 2300
+        },
+        {
+          "kind": "sill",
+          "x": 2396,
+          "y": 290,
+          "w": 130
+        },
+        {
+          "kind": "bench",
+          "x": 3080,
+          "w": 120
+        },
+        {
+          "kind": "chair",
+          "x": 3480
+        },
+        {
+          "kind": "sill",
+          "x": 3550,
+          "y": 360,
+          "w": 120
+        },
+        {
+          "kind": "chair",
+          "x": 3900
+        }
+      ],
+      "vitamins": [
+        {
+          "type": "magnesium",
+          "x": 1385,
+          "y": 328
+        },
+        {
+          "type": "vitd",
+          "x": 2440,
+          "y": 258
+        },
+        {
+          "type": "omega",
+          "x": 3592,
+          "y": 328
+        }
+      ],
+      "energy": [
+        {
+          "x": 262,
+          "y": 388
+        },
+        {
+          "x": 675,
+          "y": 398
+        },
+        {
+          "x": 1100,
+          "y": 438
+        },
+        {
+          "x": 1195,
+          "y": 398
+        },
+        {
+          "x": 2112,
+          "y": 388
+        },
+        {
+          "x": 2700,
+          "y": 438
+        },
+        {
+          "x": 3130,
+          "y": 398
+        },
+        {
+          "x": 3912,
+          "y": 388
+        }
+      ],
+      "students": [
+        {
+          "min": 1480,
+          "max": 1700,
+          "speed": 100
+        },
+        {
+          "min": 2560,
+          "max": 2850,
+          "speed": 110
+        }
+      ],
+      "puddles": [
+        {
+          "x": 3320,
+          "w": 180
+        }
+      ],
+      "gates": [
+        {
+          "x": 1780,
+          "kind": "math"
+        },
+        {
+          "x": 3250,
+          "kind": "combo"
+        },
+        {
+          "x": 4050,
+          "kind": "combo"
+        }
+      ],
+      "finish": 4300
+    }
+  ]
+}
+  </script>
+
+  <script src="game.js"></script>
+</body>
+</html>

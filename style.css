@@ -1,0 +1,579 @@
+/* Шрифты лежат в папке fonts (лицензия SIL Open Font License 1.1), интернет не нужен */
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/manrope-cyrillic-500-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/manrope-latin-500-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/manrope-cyrillic-700-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/manrope-latin-700-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("fonts/manrope-cyrillic-800-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("fonts/manrope-latin-800-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/playfair-display-cyrillic-700-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/playfair-display-latin-700-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("fonts/playfair-display-cyrillic-800-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("fonts/playfair-display-latin-800-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Зумер-интерфейс: голубой фон, белые карточки как виджеты телефона,
+   синие таблетки-вкладки и жирный антиквенный заголовок. */
+:root {
+  --sky: #d8ecf6;
+  --sky-deep: #a9bfcd;
+  --card: #ffffff;
+  --ink: #1d2a5a;
+  --muted: #5d6a90;
+  --blue: #4f6bed;
+  --blue-soft: #dfe6ff;
+  --red: #ff5a4e;
+  --cat: #f0913f;
+  --serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  min-height: 100%;
+  background: var(--sky-deep);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  background: linear-gradient(180deg, var(--sky) 0%, var(--sky-deep) 100%) fixed;
+}
+
+[hidden] { display: none !important; }
+
+button { font: inherit; cursor: pointer; }
+
+.wrap {
+  max-width: none;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding-block: 10px 12px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+}
+
+/* Пиксельный логотип рисуется скриптом на маленьком холсте и увеличивается без сглаживания */
+.logo {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: auto;  /* общий стиль canvas задаёт 16:9 только игровому полю */
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.logo--small { height: 30px; width: auto; }
+.logo--big { width: min(100%, 360px); margin: 4px 0 6px; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.tagline {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.top .best { margin-left: auto; }
+
+/* ---------- Сцена ---------- */
+/* Сцена — самый большой прямоугольник 16:9, который помещается в окно */
+.stage {
+  position: relative;
+  justify-self: center;
+  width: min(100%, calc((100vh - 120px) * 16 / 9));
+  width: min(100%, calc((100dvh - 120px) * 16 / 9));
+  border-radius: 24px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 18px 40px rgba(29, 42, 90, 0.25);
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  touch-action: none;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(216, 236, 246, 0.35);
+}
+
+.screen {
+  position: relative;
+  width: min(440px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+  padding: 26px 26px 22px;
+  background: var(--card);
+  border-radius: 28px;
+  box-shadow: 0 14px 36px rgba(29, 42, 90, 0.22);
+}
+
+.screen h2,
+.title {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 800;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.title {
+  font-size: clamp(32px, 6vw, 48px);
+  padding: 2px 10px;
+  background: var(--blue-soft);
+  border-left: 3px solid var(--blue);
+  border-right: 3px solid var(--blue);
+}
+
+.screen h2 { font-size: clamp(22px, 4vw, 30px); }
+
+/* На широком экране итог сдвинут вправо: слева виден котик-рыцарь */
+@media (min-width: 721px) {
+  .screen--result {
+    justify-self: end;
+    width: min(400px, 52%);
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.note {
+  margin: 0;
+  color: var(--muted);
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 4px;
+  padding: 0;
+  list-style: none;
+}
+
+.tabs li {
+  padding: 3px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--card);
+  background: var(--blue);
+  border-radius: 999px;
+}
+
+.tabs .is-on {
+  color: var(--blue);
+  background: var(--card);
+  box-shadow: 0 0 0 2px var(--blue);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.btn {
+  min-height: 44px;
+  padding: 8px 18px;
+  font-weight: 800;
+  color: var(--ink);
+  background: var(--blue-soft);
+  border: 0;
+  border-radius: 999px;
+  transition: transform 0.12s, background-color 0.12s;
+}
+
+.btn:hover:not(:disabled) { transform: translateY(-1px); }
+.btn:disabled { opacity: 0.4; cursor: default; }
+
+.btn--main {
+  color: var(--card);
+  background: var(--blue);
+}
+
+.btn--danger {
+  color: var(--card);
+  background: var(--red);
+}
+
+.link {
+  padding: 4px 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+}
+
+button:focus-visible {
+  outline: 3px solid var(--cat);
+  outline-offset: 2px;
+}
+
+/* ---------- Выбор пары ---------- */
+.levels {
+  width: 100%;
+  display: grid;
+  gap: 8px;
+}
+
+.level-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 12px;
+  align-items: center;
+  width: 100%;
+  padding: 10px 14px;
+  text-align: left;
+  color: var(--ink);
+  background: #f3f6ff;
+  border: 2px solid transparent;
+  border-radius: 18px;
+}
+
+.level-card:hover:not(:disabled) { border-color: var(--blue); }
+.level-card:disabled { opacity: 0.55; cursor: default; }
+
+.level-card__num {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  font-weight: 800;
+  color: var(--card);
+  background: var(--blue);
+  border-radius: 14px;
+}
+
+.level-card__title { font-weight: 800; }
+
+.level-card__meta {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---------- Результат и правила ---------- */
+.rules,
+.result-lines {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.rules b { color: var(--ink); }
+
+.score-line {
+  margin: 2px 0 0;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.score-line b {
+  font-family: var(--serif);
+  font-size: 28px;
+  color: var(--ink);
+}
+
+/* ---------- Нижняя панель ---------- */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbar .btn { background: var(--card); }
+.toolbar .btn--main { background: var(--blue); }
+
+.btn--icon {
+  width: 44px;
+  padding: 0;
+  font-size: 20px;
+}
+
+.stage:fullscreen {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  border-radius: 0;
+}
+
+.stage:fullscreen canvas {
+  width: auto;
+  height: 100%;
+  max-height: 100vh;
+}
+
+.best {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.keys {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+kbd {
+  display: inline-block;
+  min-width: 1.7em;
+  padding: 1px 6px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+  background: var(--card);
+  border-radius: 6px;
+  box-shadow: 0 2px 0 rgba(29, 42, 90, 0.25);
+}
+
+/* ---------- Экранные кнопки ---------- */
+.pad {
+  display: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pad button {
+  width: 74px;
+  height: 74px;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--ink);
+  background: var(--card);
+  border: 0;
+  border-radius: 50%;
+  box-shadow: 0 4px 0 rgba(29, 42, 90, 0.2);
+  touch-action: none;
+}
+
+.pad button.is-down {
+  color: var(--card);
+  background: var(--blue);
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.pad--run {
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pad__group {
+  display: flex;
+  gap: 12px;
+}
+
+.pad .pad__jump {
+  width: 112px;
+  border-radius: 37px;
+  font-size: 16px;
+}
+
+.pad--qte {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.pad--qte button {
+  width: 100%;
+  border-radius: 22px;
+}
+
+.rotate-tip {
+  display: none;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--ink);
+}
+
+@media (hover: none) and (pointer: coarse) and (orientation: portrait) {
+  .rotate-tip { display: block; }
+}
+
+/* Телефон боком: поле на всю высоту, кнопки поверх углов поля */
+@media (hover: none) and (pointer: coarse) and (orientation: landscape) {
+  .wrap { padding-block: 4px; gap: 4px; }
+  .tagline, .top .best, .rotate-tip { display: none; }
+  .logo--small { height: 24px; }
+  .btn { min-height: 36px; padding: 4px 12px; }
+  .stage {
+    width: min(100%, calc((100vh - 52px) * 16 / 9));
+    width: min(100%, calc((100dvh - 52px) * 16 / 9));
+  }
+  .pad {
+    position: fixed;
+    bottom: max(10px, env(safe-area-inset-bottom, 0px));
+    left: max(10px, env(safe-area-inset-left, 0px));
+    right: max(10px, env(safe-area-inset-right, 0px));
+    z-index: 10;
+    pointer-events: none;
+  }
+  .pad button {
+    pointer-events: auto;
+    width: 64px;
+    height: 64px;
+    opacity: 0.85;
+  }
+  .pad--qte {
+    left: auto;
+    width: 300px;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  body[data-state="playing"] .pad--run { display: flex; }
+  body[data-state="qte"] .pad--qte,
+  body[data-state="boss"] .pad--qte { display: grid; }
+  .keys,
+  #btnFull { display: none; }
+}
+
+/* На узком экране меню открываются поверх всей страницы */
+@media (max-width: 720px) {
+  .overlay {
+    position: fixed;
+    z-index: 20;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-bottom, 0px));
+    background: rgba(169, 191, 205, 0.75);
+  }
+
+  .stage { border-radius: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
